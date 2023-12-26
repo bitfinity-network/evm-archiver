@@ -39,8 +39,13 @@ Default: 8080.
 
 - `--remote-rpc-url <REMOTE_RPC_URL>`
 
-URL of the remote Ethereum JSON RPC server which will be used to import blocks from.
+URL of the remote Ethereum JSON RPC server which will be used to import data from.
 Default: http://127.0.0.1:8545
+
+- `--blocks-remote-rpc-url <REMOTE_RPC_URL>`
+
+URL of the remote Ethereum JSON RPC server which will be used to import blocks from if some of the blocks are missing in `--remote-rpc-url`.
+Default: unspecified (do not use secondary blocks source).
 
 - `--request-delay <REQUEST_DELAY>`
 
@@ -77,11 +82,37 @@ The backup can be used to revert state of the archiver to a previous block.
 To do it, user should replace content of the storage directory with backup for the desired block.
 The default value is "0 0 2 * * *" (every day at 2:00am).
 
-- `--block-synchronization-job-interval-seconds 
-<BLOCK_SYNCHRONIZATION_JOB_INTERVAL_SECONDS>`
+- `--block-synchronization-job-interval-seconds <BLOCK_SYNCHRONIZATION_JOB_INTERVAL_SECONDS>`
+
 Block synchronization job interval schedule.
 The block synchronization job querying new blocks from the remote Ethereum JSON-RPC URL and adds them to the archiver state.
 Default: 60
+
+- `--identity <PATH_TO_IC_IDENTITY_PEM_FILE>`
+
+Optional path to your identity pem file.
+If provided, the tool will use it for calling the remote JSON RPC endpoint.
+
+- `--evmc_principal <EVMC_PRINCIPAL>`
+
+Optional evmc canister Principal. Required if `identity` is set.
+If provided, the tool will use it for calling the remote JSON RPC endpoint.
+
+- `--logs_synchronization_job_interval_seconds <SECONDS>`
+
+Logs synchronization job interval in seconds.
+This job executes is executed every <logs_synchronization_job_interval_seconds> seconds and download the 
+evmc logs to a file on the local filesystem. The job is enables only if both `identity` and `evmc_principal` are provided.
+Default is 10 seconds.
+
+- `--logs_synchronization_job_max_logs_per_call <MAX_LOGS_PER_CALL>`
+
+The max number of logs to be downloaded on each log synchronization job loop.
+Default is 10_000.
+
+- `--logs_directory <LOGS_DIRECTORY>`
+
+Path to the directory where the EVM downloaded logs are written into.
 
 ### Example
 
